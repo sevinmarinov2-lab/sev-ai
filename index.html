@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA AI - Информационен асистент</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #080d18;
+  color: white;
+}
+header {
+  padding: 22px;
+  border-bottom: 1px solid #18345b;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo {
+  background: #087cff;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  box-shadow: 0 0 20px #087cff66;
+}
+h1 { font-size: 22px; margin: 0; }
+header p { color: #8298b8; margin: 5px 0 0; }
+main {
+  max-width: 850px;
+  margin: 55px auto;
+  padding: 20px;
+}
+.welcome { text-align: center; margin-bottom: 35px; }
+.welcome h2 { font-size: 32px; }
+.blue { color: #168aff; }
+.welcome p { color: #9aabc4; line-height: 1.6; }
+.chat {
+  background: #101a2b;
+  border: 1px solid #203b60;
+  border-radius: 18px;
+  padding: 22px;
+  min-height: 260px;
+}
+#messages {
+  min-height: 180px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+.message {
+  padding: 13px 16px;
+  border-radius: 12px;
+  margin: 12px 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+.bot { background: #192b45; }
+.user { background: #075db9; margin-left: 15%; }
+.input-area { display: flex; gap: 10px; margin-top: 15px; }
+input {
+  flex: 1;
+  min-width: 0;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #294a72;
+  background: #080f1d;
+  color: white;
+  outline: none;
+}
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 13px 18px;
+  background: #087cff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover { background: #0063d1; }
+.shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.shortcuts button {
+  background: #17263c;
+  border: 1px solid #294a72;
+}
+footer {
+  text-align: center;
+  color: #667d9e;
+  padding: 25px;
+  font-size: 13px;
+}
+@media(max-width:550px) {
+  main { margin: 25px auto; }
+  .welcome h2 { font-size: 25px; }
+  .input-area { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">N</div>
+  <div>
+    <h1>NOVA <span class="blue">AI</span></h1>
+    <p>Информационен асистент</p>
+  </div>
+</header>
+
+<main>
+  <section class="welcome">
+    <h2>Добре дошли в <span class="blue">NOVA AI</span></h2>
+    <p>Вашият помощник за информация, знания и откриване на нови неща.</p>
+  </section>
+
+  <section class="chat">
+    <div id="messages">
+      <div class="message bot">
+        Здравей! Аз съм NOVA AI.
+
+        Мога да ти помогна да търсиш информация в интернет. Напиши какво искаш да научиш!
+      </div>
+    </div>
+
+    <div class="input-area">
+      <input id="question" placeholder="Напиши своя въпрос..."
+      onkeydown="if(event.key==='Enter') searchInfo()">
+      <button onclick="searchInfo()">Търси ↗</button>
+    </div>
+
+    <div class="shortcuts">
+      <button onclick="ask('Научни открития')">🔬 Наука</button>
+      <button onclick="ask('История на България')">📚 История</button>
+      <button onclick="ask('Технологични новини')">💻 Технологии</button>
+      <button onclick="ask('Здравна информация')">🏥 Здраве</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  NOVA AI · Информационен проект · 2026
+</footer>
+
+<script>
+function ask(value) {
+  document.getElementById('question').value = value;
+  searchInfo();
+}
+
+function searchInfo() {
+  const input = document.getElementById('question');
+  const question = input.value.trim();
+
+  if (!question) return;
+
+  const messages = document.getElementById('messages');
+
+  const user = document.createElement('div');
+  user.className = 'message user';
+  user.textContent = question;
+  messages.appendChild(user);
+
+  const answer = document.createElement('div');
+  answer.className = 'message bot';
+  answer.textContent =
+    'Подготвям търсене по твоя въпрос. Ще отворя резултатите от Google. Провери източниците и датите на публикациите.';
+  messages.appendChild(answer);
+
+  messages.scrollTop = messages.scrollHeight;
+
+  window.open(
+    'https://www.google.com/search?q=' + encodeURIComponent(question),
+    '_blank'
+  );
+
+  input.value = '';
+}
+</script>
+</body>
+</html>
